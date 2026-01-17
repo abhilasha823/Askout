@@ -81,3 +81,22 @@ body {
   transition: all 0.5s ease;
   z-index: 2;
 }
+
+/* Mobile fix */
+@media (max-width: 600px) {
+  .content {
+    top: 45%;   /* move everything slightly up */
+  }
+
+  .buttons {
+    margin-top: 20px; /* reduce gap on mobile */
+  }
+
+  .image-1 {
+    width: 150px; /* slightly smaller GIF */
+  }
+
+  .header-img {
+    width: 260px; /* smaller title PNG */
+  }
+}
