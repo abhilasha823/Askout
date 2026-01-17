@@ -5,36 +5,50 @@ const btnYes = document.querySelector(".btn-yes");
 const btnNo = document.querySelector(".btn-no");
 
 function getRandomNumber(min, max) {
-  // Calculate the random number between min and max (inclusive)
-  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-
-  return randomNumber;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-btnNo.addEventListener("mouseover", (event) => {
-  const containerHeight = container.getBoundingClientRect().height;
-  const containerWidth = container.getBoundingClientRect().width;
-  const btnHeight = btnNo.getBoundingClientRect().height;
-  const btnWidth = btnNo.getBoundingClientRect().width;
-  const btnTop = btnNo.getBoundingClientRect().top;
-  const btnLeft = btnNo.getBoundingClientRect().left;
+function moveNoButton() {
+  const containerRect = container.getBoundingClientRect();
+  const btnRect = btnNo.getBoundingClientRect();
 
-  let newTop = btnTop;
-  let newLeft = btnLeft;
-  while (Math.abs(newTop - btnTop) < containerHeight / 3) {
-    newTop = getRandomNumber(0, containerHeight - btnHeight);
+  let newTop = btnRect.top - containerRect.top;
+  let newLeft = btnRect.left - containerRect.left;
+
+  while (
+    Math.abs(newTop - (btnRect.top - containerRect.top)) <
+    containerRect.height / 3
+  ) {
+    newTop = getRandomNumber(0, containerRect.height - btnRect.height);
   }
 
-  while (Math.abs(newLeft - btnLeft) < containerWidth / 3) {
-    newLeft = getRandomNumber(0, containerWidth - btnWidth);
+  while (
+    Math.abs(newLeft - (btnRect.left - containerRect.left)) <
+    containerRect.width / 3
+  ) {
+    newLeft = getRandomNumber(0, containerRect.width - btnRect.width);
   }
 
   btnNo.style.top = Math.floor(newTop) + "px";
   btnNo.style.left = Math.floor(newLeft) + "px";
-});
+}
 
-btnYes.addEventListener("click", (e) => {
+/* Desktop */
+btnNo.addEventListener("mouseenter", moveNoButton);
+
+/* Mobile */
+btnNo.addEventListener(
+  "touchstart",
+  (e) => {
+    e.preventDefault();
+    moveNoButton();
+  },
+  { passive: false }
+);
+
+btnYes.addEventListener("click", () => {
   btnNo.classList.add("hide");
   imageOne.classList.add("hide");
   imageTwo.classList.remove("hide");
 });
+
